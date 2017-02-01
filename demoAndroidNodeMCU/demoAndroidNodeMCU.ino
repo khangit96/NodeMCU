@@ -15,11 +15,11 @@ const char* password = "khongcho";
 // Create an instance of the server
 // specify the port to listen on as an argument
 WiFiServer server(80);
-int ledPin = 13;
-
+#define LED D0
 void setup() {
   Serial.begin(9600);
-  delay(10);
+ pinMode(LED, OUTPUT);
+ delay(10);
   
   // Connect to WiFi network
   Serial.println();
@@ -45,8 +45,9 @@ void setup() {
 }
 
 void loop() {
-  // Check if a client has connected
   WiFiClient client = server.available();
+     digitalWrite(LED, LOW);
+
   if (!client) {
     return;
   }
@@ -59,15 +60,25 @@ void loop() {
   
   // Read the first line of the request
   String req = client.readStringUntil('\r');
+  String ledStatus="";
 
-  Serial.println(req);
-  Serial.println(req.substring(5,6));
-
+  if(req.substring(5,6)=="1")
+    {
+      digitalWrite(LED, LOW);
+      ledStatus="Led is On" ; 
+    }
+   else
+    {
+      digitalWrite(LED, HIGH);
+      ledStatus="Led is OFF"; 
+    }
+  //Serial.println(req);
+  //Serial.println(req.substring(5,6));
 
    // Return the response
   client.println("HTTP/1.1 200 OK");
   client.println("Content-Type: text/html");
   client.println(""); //  do not forget this one
-  client.print("Led pin is now: ");
+  client.print(ledStatus);
 
 }

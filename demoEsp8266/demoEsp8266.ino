@@ -1,5 +1,5 @@
-const int triggerPin = D3; // Trigger Pin
-const int echoPin = D4;   // Echo Pin
+const int triggerPin = D5; // Trigger Pin
+const int echoPin = D6;   // Echo Pin
 
 void setup() {
   // put your setup code here, to run once:

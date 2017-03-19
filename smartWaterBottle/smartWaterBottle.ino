@@ -6,8 +6,8 @@
 // Firebase Config.
 #define FIREBASE_HOST "demonodemcu.firebaseio.com"
 #define FIREBASE_AUTH "fNDh456Nv6xtdBPqJtwcXHEN7JfMCWYs44LozYeb"
-#define WIFI_SSID "okhttp"
-#define WIFI_PASSWORD "1234567890"
+#define WIFI_SSID "OpenLAB-2"
+#define WIFI_PASSWORD "merry=x-mas"
 #define led D0
 
 //Hsrf04 measure distance of water
@@ -15,7 +15,9 @@ const int triggerPin = D5; // Trigger Pin
 const int echoPin = D6; // Echo Pin
 int maximumRange = 400; // Maximum range needed adalah 4 meter
 int minimumRange = 2; // Minimum range needed adalah 2 cm
-float duration, distance; // Duration used to calculate distance
+float duration;
+float distance; // Duration used to calculate distance
+float distanceBefore=100;
 
 /*Setup*/
 void setup()
@@ -66,23 +68,33 @@ void measureDistance(){
     Serial.println("HC-SR 04 sensor out of measurement range");
   }
  else {
-    Serial.print("Distance:");
-    Serial.print(distance);
-    Serial.println("cm");
-    putFloat(distance);
+   // if(distance>distanceBefore){
+       Serial.print("Distance:");
+       Serial.print(distance);
+       Serial.println("cm");
+ //   }
+    // Serial.print("Distance Before:");
+     //Serial.print(distanceBefore);
+     //Serial.println("cm");
+
+     //float fix=distance-distanceBefore;
+     //Serial.println(fix);
+    //distanceBefore=distance;
+   
+   putFloat(distance);
   }
 
 }
 
 /*Function Loop*/
 void loop(){
- if (Firebase.getBool("state")){
+ /*if (Firebase.getBool("state")){
     digitalWrite(led,LOW);
     measureDistance();
  }
  else{
    digitalWrite(led,HIGH);
- }
- 
+ }*/
+ measureDistance();
  delay(2000);
 }

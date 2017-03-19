@@ -22,9 +22,9 @@ void setup() {
   Serial.print("connected: ");
   Serial.println(WiFi.localIP());
   
-  Firebase.begin(FIREBASE_HOST, FIREBASE_AUTH);
-  FirebaseStream.begin(FIREBASE_HOST, FIREBASE_AUTH);
-  FirebaseStream.stream("/data");
+//  Firebase.begin(FIREBASE_HOST, FIREBASE_AUTH);
+//  FirebaseStream.begin(FIREBASE_HOST, FIREBASE_AUTH);
+ // FirebaseStream.stream("/data");
 }
 
 //Pust some String

@@ -1,0 +1,13 @@
+
+-------------atmega->nodemcu
+1->cảm biến nhiệt độ
+2->cảm biến độ ẩm 1
+3->cảm biến độ ẩm 2
+4->cảm biến độ ẩm 3
+
+
+----------------nodemcu->atmega-----------------
+1->bật máy bơm
+0->tắt máy bơm
+-------------nodemcu xử lý kéo màng-----------------------
+

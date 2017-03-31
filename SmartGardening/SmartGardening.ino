@@ -6,8 +6,8 @@
 // Firebase Config.
 #define FIREBASE_HOST "smartgardening-3d2d2.firebaseio.com"
 #define FIREBASE_AUTH "pJ5LGq1SIudyXT28vhPojt0LtWmgodB1sIkc1JDv"
-#define WIFI_SSID "VNPT_Khong Cho"
-#define WIFI_PASSWORD "khongcho"
+#define WIFI_SSID "okhttp"
+#define WIFI_PASSWORD "1234567890"
 #define led D0
 String test = "";
 int count = 0;
@@ -44,19 +44,19 @@ void receiveDataFromAtmga8()
         if (count == 4) {
 
             if (firstChar == '1') {
-                Firebase.pushString("NhietDo", test);
+                Firebase.pushString(key+"/DuLieu/NhietDo", test);
             }
 
             else if (firstChar == '2') {
-                Firebase.pushString("DoAm1", test);
+                Firebase.pushString(key+"/DuLieu/DoAm1", test);
             }
 
             else if (firstChar == '3') {
-                Firebase.pushString("DoAm2", test);
+                Firebase.pushString(key+"/DuLieu/DoAm2", test);
             }
 
             else if (firstChar == '4') {
-                Firebase.pushString("DoAm3", test);
+                Firebase.pushString(key+"/DuLieu/DoAm3", test);
             }
             test = "";
             count = 0;

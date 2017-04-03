@@ -26,46 +26,41 @@ void setup()
     }
 
     pinMode(led, OUTPUT);
+    pinMode(5, OUTPUT);
     Firebase.begin(FIREBASE_HOST, FIREBASE_AUTH);
 }
 
 /*Funtion receive data from Atemga8*/
 void receiveDataFromAtmga8()
 {
-    if (Serial.available()) {
-        count++;
-        command = ((byte)Serial.read());
-        test += command;
-
-        if (count == 1) {
-            firstChar = command;
-        }
-
-        if (count == 4) {
-
-            if (firstChar == '1') {
-                Firebase.pushString(key+"/DuLieu/NhietDo", test);
+     if (Serial.available() >= 4) 
+     {
+          char abc[4]= {};
+           Serial.readBytes(abc,4);
+     
+            if (abc[0] == '1') {
+                Firebase.setString(key+"/DuLieu/NhietDo",abc);
             }
 
-            else if (firstChar == '2') {
-                Firebase.pushString(key+"/DuLieu/DoAm1", test);
+            else if (abc[0] == '2') {
+                Firebase.setString(key+"/DuLieu/DoAm1", abc);
             }
 
-            else if (firstChar == '3') {
-                Firebase.pushString(key+"/DuLieu/DoAm2", test);
+            else if (abc[0] == '3') {
+                Firebase.setString(key+"/DuLieu/DoAm2", abc);
             }
 
-            else if (firstChar == '4') {
-                Firebase.pushString(key+"/DuLieu/DoAm3", test);
+            else if (abc[0] == '4') {
+                Firebase.setString(key+"/DuLieu/DoAm3", abc);
             }
-            test = "";
-            count = 0;
-        }
     }
+   
 }
 
 /*Receive data from Firebase*/
 void receiveDataFromFirebase(){
+
+  //Điều khiển từng hệ thống
    if (Firebase.getBool(key+"/DieuKhien/tinhTrang")) {
       Firebase.setBool(key+"/DieuKhien/tinhTrang",false);
         //Bật máy bơm
@@ -78,10 +73,12 @@ void receiveDataFromFirebase(){
 
         //Bật đèn
         if (Firebase.getBool(key+"/DieuKhien/batDen")) {
-         //  Serial.println("Bat den");
+        
+         digitalWrite(5,HIGH);
         }
         else {
-         // Serial.println("Tat den");
+       
+           digitalWrite(5,LOW);
         }
 
         //Kéo màng
@@ -92,6 +89,34 @@ void receiveDataFromFirebase(){
           //Serial.println("Tắt keo mang");
         }
     }
+
+    //Điều khiển chung
+    if (Firebase.getBool("DieuKhienChung/tinhTrang")) {
+           Firebase.setBool("DieuKhienChung/tinhTrang",false);
+        //Bật máy bơm
+        if (Firebase.getBool("DieuKhienChung/batMayBom")) {
+          Serial.println("1");
+        }
+        else {
+           Serial.println("0");
+        }
+
+        //Bật đèn
+        if (Firebase.getBool("DieuKhienChung/batDen")) {
+           digitalWrite(5,HIGH);
+        }
+        else {
+          digitalWrite(5,LOW);
+        }
+
+        //Kéo màng
+        if (Firebase.getBool("DieuKhienChung/keoMang")) {
+          //Serial.println("Bat keo mang");
+        }
+        else {
+        //  Serial.println("Tắt keo mang");
+        }
+     }
 }
 
 /*Main */
@@ -99,7 +124,6 @@ void loop()
 {
     receiveDataFromAtmga8();
     receiveDataFromFirebase();
-    
-    delay(20);
+      
 }
 
